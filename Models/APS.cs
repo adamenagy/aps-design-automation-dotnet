@@ -6,11 +6,12 @@
     private readonly string _bucket;
     private readonly string _alias;
 
-    public APS(string clientId, string clientSecret, string bucket = null)
+    public APS(string clientId, string clientSecret, string? nickname = null, string? bucket = null)
     {
-        _clientId = _nickname = clientId;
+        _clientId = clientId;
         _clientSecret = clientSecret;
-        _bucket = _nickname.ToLower() + "-designautomation";
+        _nickname = (nickname != null) ? nickname : _clientId;
+        _bucket = (bucket != null) ? bucket : _nickname.ToLower() + "-designautomation";
         _alias = "dev";
     }
 }

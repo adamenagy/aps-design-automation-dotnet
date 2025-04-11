@@ -56,7 +56,7 @@ public class WorkitemsController : ControllerBase
     /// </summary>
     public class StartWorkitemInput
     {
-        public IFormFile inputFile { get; set; }
-        public string data { get; set; }
+        public IFormFile? inputFile { get; set; }
+        public string? data { get; set; }
     }
 }

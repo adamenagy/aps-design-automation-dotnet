@@ -11,7 +11,7 @@ public partial class APS
     {
         var authenticationClient = new AuthenticationClient();
         var auth = await authenticationClient.GetTwoLeggedTokenAsync(_clientId, _clientSecret, scopes);
-        return new Token(auth.AccessToken, DateTime.UtcNow.AddSeconds((double)auth.ExpiresIn));
+        return new Token(auth.AccessToken, DateTime.UtcNow.AddSeconds((double)auth.ExpiresIn!));
     }
 
     private async Task<Token> GetInternalToken()

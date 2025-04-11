@@ -21,11 +21,13 @@ public class Startup
         services.AddControllers().AddNewtonsoftJson();
         var clientID = Configuration["APS_CLIENT_ID"];
         var clientSecret = Configuration["APS_CLIENT_SECRET"];
+        var nickname = Configuration["APS_NICKNAME"];
+        var bucket = Configuration["APS_BUCKET"];
         if (string.IsNullOrEmpty(clientID) || string.IsNullOrEmpty(clientSecret))
         {
             throw new ApplicationException("Missing required environment variables APS_CLIENT_ID or APS_CLIENT_SECRET.");
         }
-        services.AddSingleton(new APS(clientID, clientSecret));
+        services.AddSingleton(new APS(clientID, clientSecret, nickname = null, bucket = null));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
