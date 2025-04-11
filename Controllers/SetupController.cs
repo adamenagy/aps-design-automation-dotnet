@@ -7,12 +7,10 @@ public class SetupController : ControllerBase
 {
     private readonly APS _aps;
     private readonly string _localBundlesFolder;
-    //private readonly string _contentRootPath;
 
     public SetupController(IWebHostEnvironment env, APS aps)
     {
         _aps = aps;
-        //_contentRootPath = env.ContentRootPath;
         _localBundlesFolder = env.ContentRootPath + "/Bundles";
     }
 

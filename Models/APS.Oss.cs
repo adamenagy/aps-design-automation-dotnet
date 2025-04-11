@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Autodesk.Oss;
-using Autodesk.Oss.Http;
+﻿using Autodesk.Oss;
 using Autodesk.Oss.Model;
 
 public partial class APS

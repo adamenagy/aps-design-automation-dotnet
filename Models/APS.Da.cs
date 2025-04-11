@@ -1,9 +1,7 @@
 ﻿using Autodesk.Forge.DesignAutomation;
 using Autodesk.Forge.DesignAutomation.Model;
-using Autodesk.Oss.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using System.Net.Http.Headers;
 using Newtonsoft.Json;
 
 public partial class APS

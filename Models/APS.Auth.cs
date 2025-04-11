@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Autodesk.Authentication;
+﻿using Autodesk.Authentication;
 using Autodesk.Authentication.Model;
-using static System.Formats.Asn1.AsnWriter;
 
 public record Token(string AccessToken, DateTime ExpiresAt);
 
