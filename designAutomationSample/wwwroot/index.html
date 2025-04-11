@@ -1,96 +1,100 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="https://cdn.autodesk.io/favicon.ico"
+        />
+        <link
+            rel="stylesheet"
+            href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.css"
+        />
+        <link rel="stylesheet" href="/main.css" />
+        <title>Autodesk Platform Services: Simple Viewer</title>
+    </head>
 
-<head>
-    <title>APS - Design Automation</title>
-    <meta charset="utf-8" />
-    <link rel="shortcut icon" href="https://cdn.autodesk.io/favicon.ico">
-    <!-- Common packages: jQuery, Bootstrap -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- .NET SignalR -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
-    <!-- Files for this project -->
-    <script src="/js/ApsDesignAutomation.js"></script>
-</head>
-
-<body style="height: 100%;">
-    <!-- Fixed navbar by Bootstrap: https://getbootstrap.com/examples/navbar-fixed-top/ -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <ul class="nav navbar-nav left">
-                <li>
-                    <a href="http://tutorials.autodesk.io" target="_blank">
-                        <img alt="Autodesk APS" src="https://cdn.autodesk.io/logo/black/stacked.png"
-                             height="20">
-                    </a>
-                </li>
-            </ul>
-            <div style="float: right; margin-top: 15px; cursor: pointer;">
-                <span style="padding-right: 5px;" data-toggle="modal" data-target="#defineActivityModal" title="Configura AppBundle & Activity">
-                    <span class="glyphicon glyphicon-cog glyphiconTop mlink"> </span> Configure
-                </span>
-            </div>
+    <body>
+        <div id="header">
+            <img
+                class="logo"
+                src="https://cdn.autodesk.io/logo/black/stacked.png"
+                alt="Autodesk Platform Services"
+            />
+            <span class="title">Design Automation</span>
+            <button id="configure">Configure</button>
         </div>
-    </nav>
-    <!-- End of navbar -->
-    <div class="container-fluid" style="margin-top: 70px;">
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="form-group">
-                    <label for="width">Width:</label>
-                    <input type="number" class="form-control" id="width" placeholder="Enter new width value">
-                </div>
-                <div class="form-group">
-                    <label for="height">Height:</label>
-                    <input type="number" class="form-control" id="height" placeholder="Enter new height value">
-                </div>
+        <main>
+            <div id="leftPanel">
+                <label for="width">Width:</label>
+                <br />
+                <input
+                    type="number"
+                    id="width"
+                    placeholder="Enter new width value"
+                />
+                <br /><br />
+                <label for="height">Height:</label>
+                <br />
+                <input
+                    type="number"
+                    id="height"
+                    placeholder="Enter new height value"
+                />
+                <br /><br />
+                <label for="inputFile">Input file</label>
+                <br />
+                <input type="file" id="inputFile" />
+                <br /><br />
+                <label for="activities">Existing activities</label>
+                <br />
+                <select id="activities"></select>
+                <br /><br />
+                <center>
+                    <button class="btn btn-primary" id="startWorkItem">
+                        Start workitem
+                    </button>
+                </center>
+            </div>
+            <div id="rightPanel">
+                <pre id="outputlog"></pre>
+            </div>
+        </main>
+        <dialog id="configureDialog">
+            <form method="dialog">
+                <h1>Create/Update AppBundle & Activity</h1>
 
-                <div class="form-group">
-                    <label for="inputFile">Input file</label>
-                    <input type="file" class="form-control-file" id="inputFile">
-                </div>
-                <div class="form-group">
-                    <label for="activity">Existing activities</label>
-                    <select class="form-control" id="activity"> </select>
-                </div>
-                <center><button class="btn btn-primary" id="startWorkitem">Start workitem</button></center><br />
-            </div>
-            <div class="col-sm-8">
-                <pre id="outputlog" style="height: calc(100vh - 120px);; overflow-y: scroll;"></pre>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Define AppBundle & Activity -->
-    <div class="modal fade" id="defineActivityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cancel"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Create/Update AppBundle & Activity</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-warning"><center>You just need to define AppBundle &amp; Activity once.<br />If the plugin code changed, redefine (creates a new version).</center></div>
-                    <div class="form-group">
-                        <label for="localBundles">Select a local AppBundle:</label>
-                        <select class="form-control" id="localBundles"> </select>
-                        <b>Tip:</b> Make sure .ZIP bundles are placed at <b>/bundles/</b> folder
-                    </div>
-                    <div class="form-group">
-                        <label for="engines">Select engine:</label>
-                        <select class="form-control" id="engines"> </select>
-                    </div>
-                    For this sample the .ZIP name is used as suffix to define <b>AppBundle</b> and <b>Activity</b>
-                    names. Activities will have file and params input, and file output.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" id="clearAccount">Clear account</button>
-                    <button type="button" class="btn btn-primary" id="createAppBundleActivity">Create/Update</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
+                <center>
+                    You just need to define AppBundle &amp; Activity once.<br />If
+                    the plugin code changed, redefine (creates a new
+                    version).<br />&nbsp;
+                </center>
 
+                <label for="localBundles">Select a local AppBundle:</label>
+                <select id="localBundles"></select>
+                <p>
+                    <label
+                        ><b>Tip:</b> Make sure .ZIP bundles are placed at
+                        <b>/bundles/</b> folder</label
+                    >
+                </p>
+                <label for="engines">Select engine:</label>
+                <select id="engines"></select>
+
+                <center>
+                    <br />For this sample the .ZIP name is used as suffix to
+                    define <b>AppBundle</b> and <b>Activity</b> names.
+                    <br />Activities will have file and params input, and file
+                    output.<br />&nbsp;
+                </center>
+
+                <button id="clearAccount" autofocus>Clear account</button>
+                <button id="createUpdate" autofocus>Create/Update</button>
+            </form>
+        </dialog>
+        <script src="/main.js" type="module"></script>
+    </body>
 </html>
