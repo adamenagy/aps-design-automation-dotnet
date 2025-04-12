@@ -5,7 +5,7 @@ public record Token(string AccessToken, DateTime ExpiresAt);
 
 public partial class APS
 {
-    private Token _internalTokenCache;
+    private Token? _internalTokenCache;
 
     private async Task<Token> GetToken(List<Scopes> scopes)
     {

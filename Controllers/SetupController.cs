@@ -43,9 +43,9 @@ public class SetupController : ControllerBase
     [Route("appbundles")]
     public string[] GetLocalBundles()
     {
-        // this folder is placed under the public folder, which may expose the bundles
-        // but it was defined this way so it be published on most hosts easily
-        return Directory.GetFiles(_localBundlesFolder, "*.zip").Select(Path.GetFileNameWithoutExtension).ToArray();
+        return Directory.GetFiles(_localBundlesFolder, "*.zip")
+                        .Select(file => Path.GetFileNameWithoutExtension(file) ?? string.Empty)
+                        .ToArray();
     }
 
     /// <summary>

@@ -20,7 +20,7 @@ public class WorkitemsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> StartWorkitem([FromForm] StartWorkitemInput input)
     {
-        dynamic workitem = await _aps.StartWorkitem(input.inputFile, input.data, _contentRootPath);
+        dynamic workitem = await _aps.StartWorkitem(input.inputFile!, input.data!, _contentRootPath);
 
         return Ok(workitem);
     }

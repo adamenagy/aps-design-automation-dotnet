@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 public partial class APS
 {
-    DesignAutomationClient _api;
+    DesignAutomationClient? _api;
 
     public DesignAutomationClient GetClient()
     {
@@ -38,8 +38,8 @@ public partial class APS
     public async Task<dynamic> CreateAppBundle(JObject setupSpecs, string localBundlesFolder)
     {
         // basic input validation
-        string zipFileName = setupSpecs["zipFileName"].Value<string>();
-        string engineName = setupSpecs["engine"].Value<string>();
+        string? zipFileName = setupSpecs["zipFileName"]!.Value<string>();
+        string? engineName = setupSpecs["engine"]!.Value<string>();
 
         // standard name for this sample
         string appBundleName = zipFileName + "AppBundle";
@@ -121,8 +121,8 @@ public partial class APS
     public async Task<dynamic> CreateActivity([FromBody] JObject activitySpecs)
     {
         // basic input validation
-        string zipFileName = activitySpecs["zipFileName"].Value<string>();
-        string engineName = activitySpecs["engine"].Value<string>();
+        string? zipFileName = activitySpecs["zipFileName"]!.Value<string>();
+        string? engineName = activitySpecs["engine"]!.Value<string>();
 
         // standard name for this sample
         string appBundleName = zipFileName + "AppBundle";
@@ -135,7 +135,7 @@ public partial class APS
         {
             // define the activity
             // ToDo: parametrize for different engines...
-            dynamic engineAttributes = EngineAttributes(engineName);
+            dynamic engineAttributes = EngineAttributes(engineName!);
             string commandLine = string.Format(engineAttributes.commandLine, appBundleName);
             Activity activitySpec = new Activity()
             {
@@ -172,7 +172,7 @@ public partial class APS
     {
         List<string> allEngines = new List<string>();
         // define Engines API
-        string paginationToken = null;
+        string? paginationToken = null;
         while (true)
         {
             Page<string> engines = await GetClient().GetEnginesAsync(paginationToken);
@@ -201,9 +201,9 @@ public partial class APS
     {
         // basic input validation
         JObject workItemData = JObject.Parse(data);
-        string widthParam = workItemData["width"].Value<string>();
-        string heigthParam = workItemData["height"].Value<string>();
-        string activityName = string.Format("{0}.{1}", _nickname, workItemData["activityName"].Value<string>());
+        string? widthParam = workItemData["width"]!.Value<string>();
+        string? heigthParam = workItemData["height"]!.Value<string>();
+        string activityName = string.Format("{0}.{1}", _nickname, workItemData["activityName"]!.Value<string>());
 
         // save the file on the server
         var fileSavePath = Path.Combine(contentRootPath, Path.GetFileName(inputFile.FileName));
