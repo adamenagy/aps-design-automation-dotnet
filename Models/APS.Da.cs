@@ -22,7 +22,6 @@ public partial class APS
         if (engine.Contains("AutoCAD")) return new { commandLine = "$(engine.path)\\accoreconsole.exe /i \"$(args[inputFile].path)\" /al \"$(appbundles[{0}].path)\" /s $(settings[script].path)", extension = "dwg", script = "UpdateParam\n" };
         if (engine.Contains("Inventor")) return new { commandLine = "$(engine.path)\\inventorcoreconsole.exe /i \"$(args[inputFile].path)\" /al \"$(appbundles[{0}].path)\"", extension = "ipt", script = string.Empty };
         if (engine.Contains("Revit")) return new { commandLine = "$(engine.path)\\revitcoreconsole.exe /i \"$(args[inputFile].path)\" /al \"$(appbundles[{0}].path)\"", extension = "rvt", script = string.Empty };
-        if (engine.Contains("Fusion")) return new { commandLine = "", extension = "f3d", script = string.Empty };
         throw new Exception("Invalid engine");
     }
 
@@ -149,7 +148,6 @@ public partial class APS
                     { "inputFile", new Parameter() { Description = "input file", LocalName = "inputFile." + engineAttributes.extension, Ondemand = false, Required = true, Verb = Verb.Get, Zip = false } },
                     { "inputJson", new Parameter() { Description = "input json", LocalName = "params.json", Ondemand = false, Required = false, Verb = Verb.Get, Zip = false } },
                     { "outputFile", new Parameter() { Description = "output file", LocalName = "outputFile." + engineAttributes.extension, Ondemand = false, Required = true, Verb = Verb.Put, Zip = false } },
-                    { "PersonalAccessToken", new Parameter() { Description = "the personal access token to use", Required = true, Verb = Verb.Read } }
                 },
                 Settings = new Dictionary<string, ISetting>()
                 {
@@ -246,11 +244,6 @@ public partial class APS
             },
             Verb = Verb.Put
         };
-        // 4. personal access token for Fusion engine
-        StringArgument patArgument = new StringArgument()
-        {
-            Value = _pat
-        };
 
         if (System.IO.File.Exists(fileSavePath))
         {
@@ -265,8 +258,7 @@ public partial class APS
             {
                 { "inputFile", inputFileArgument },
                 { "inputJson",  inputJsonArgument },
-                { "outputFile", outputFileArgument },
-                { "PersonalAccessToken", patArgument }
+                { "outputFile", outputFileArgument }
             }
         };
         WorkItemStatus workItemStatus = await GetClient().CreateWorkItemAsync(workItemSpec);
